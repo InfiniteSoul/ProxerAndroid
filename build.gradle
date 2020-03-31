@@ -204,7 +204,9 @@ configurations.all {
 
 tasks.withType(KotlinCompile).all {
     kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict", "-progressive"]
+        allWarningsAsErrors = true
+        jvmTarget = javaVersion.toString()
+        freeCompilerArgs = ["-Xjsr305=strict", "-progressive", "-Xnew-inference"]
     }
 }
 
