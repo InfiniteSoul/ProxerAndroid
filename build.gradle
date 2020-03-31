@@ -9,7 +9,7 @@ buildscript { scriptHandler ->
         // Manually set the R8 and D8 version, to get latest improvements fast.
         classpath "com.android.tools:r8:$r8Version"
 
-        classpath "com.android.tools.build:gradle:$androidPluginVersion"
+        classpath "com.android.tools.build:gradle:${androidPluginVersion}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektPluginVersion"
