@@ -2,6 +2,7 @@ package me.proxer.app.util.http
 
 import android.os.Build
 import me.proxer.library.util.ProxerUrls
+import me.proxer.library.util.ProxerUrls.hasProxerHost
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -15,7 +16,7 @@ class ConnectionCloseInterceptor : Interceptor {
 
         return if (
             Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ||
-            ProxerUrls.hasProxerProxyHost(oldRequest.url())
+            oldRequest.url().hasProxerHost
         ) {
             val newRequest = oldRequest.newBuilder()
                 .header("Connection", "close")
