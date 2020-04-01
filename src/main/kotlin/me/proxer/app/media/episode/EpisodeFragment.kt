@@ -83,7 +83,7 @@ class EpisodeFragment : BaseContentFragment<List<EpisodeRow>>() {
                         requireActivity(), id, episode.number,
                         language.toAnimeLanguage(), name, episode.episodeAmount
                     )
-                    Category.MANGA -> MangaActivity.navigateTo(
+                    Category.MANGA, Category.NOVEL -> MangaActivity.navigateTo(
                         requireActivity(), id, episode.number,
                         language.toGeneralLanguage(), episode.title, name, episode.episodeAmount
                     )
@@ -155,7 +155,7 @@ class EpisodeFragment : BaseContentFragment<List<EpisodeRow>>() {
                 ErrorAction(
                     when (category) {
                         Category.ANIME, null -> R.string.error_no_data_episodes
-                        Category.MANGA -> R.string.error_no_data_chapters
+                        Category.MANGA, Category.NOVEL -> R.string.error_no_data_chapters
                     },
                     ACTION_MESSAGE_HIDE
                 )

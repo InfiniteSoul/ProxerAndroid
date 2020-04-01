@@ -85,9 +85,13 @@ fun Medium.toAppString(context: Context): String = context.getString(
         Medium.MOVIE -> R.string.medium_movie
         Medium.OVA -> R.string.medium_ova
         Medium.MANGASERIES -> R.string.medium_manga_series
+        Medium.LIGHTNOVEL -> R.string.medium_lightnovel
+        Medium.WEBNOVEL -> R.string.medium_webnovel
+        Medium.VISUALNOVEL -> R.string.medium_visualnovel
         Medium.DOUJIN -> R.string.medium_doujin
         Medium.HMANGA -> R.string.medium_h_manga
         Medium.ONESHOT -> R.string.medium_oneshot
+        Medium.OTHER -> R.string.medium_other
     }
 )
 
@@ -156,19 +160,21 @@ fun Country.toAppDrawable(context: Context) = AppCompatResources.getDrawable(
 fun Medium.toCategory() = when (this) {
     Medium.ANIMESERIES, Medium.MOVIE, Medium.OVA, Medium.HENTAI -> Category.ANIME
     Medium.MANGASERIES, Medium.ONESHOT, Medium.DOUJIN, Medium.HMANGA -> Category.MANGA
+    Medium.LIGHTNOVEL, Medium.WEBNOVEL, Medium.VISUALNOVEL -> Category.NOVEL
+    Medium.OTHER -> error("Invalid medium: OTHER")
 }
 
 fun Category.toEpisodeAppString(context: Context, number: Int? = null): String = when (number) {
     null -> context.getString(
         when (this) {
             Category.ANIME -> R.string.category_anime_episodes_title
-            Category.MANGA -> R.string.category_manga_episodes_title
+            Category.MANGA, Category.NOVEL -> R.string.category_manga_episodes_title
         }
     )
     else -> context.getString(
         when (this) {
             Category.ANIME -> R.string.category_anime_episode_number
-            Category.MANGA -> R.string.category_manga_episode_number
+            Category.MANGA, Category.NOVEL -> R.string.category_manga_episode_number
         },
         number
     )
@@ -195,20 +201,20 @@ fun UserMediaProgress.toEpisodeAppString(
     UserMediaProgress.WATCHED -> context.getString(
         when (category) {
             Category.ANIME -> R.string.user_media_progress_watched
-            Category.MANGA -> R.string.user_media_progress_read
+            Category.MANGA, Category.NOVEL -> R.string.user_media_progress_read
         }
     )
     UserMediaProgress.WATCHING -> context.getString(
         when (category) {
             Category.ANIME -> R.string.user_media_progress_watching
-            Category.MANGA -> R.string.user_media_progress_reading
+            Category.MANGA, Category.NOVEL -> R.string.user_media_progress_reading
         },
         episode
     )
     UserMediaProgress.WILL_WATCH -> context.getString(
         when (category) {
             Category.ANIME -> R.string.user_media_progress_will_watch
-            Category.MANGA -> R.string.user_media_progress_will_read
+            Category.MANGA, Category.NOVEL -> R.string.user_media_progress_will_read
         }
     )
     UserMediaProgress.CANCELLED -> context.getString(R.string.user_media_progress_cancelled, episode)

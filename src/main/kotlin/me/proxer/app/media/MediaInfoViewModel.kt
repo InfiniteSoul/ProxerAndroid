@@ -132,7 +132,7 @@ class MediaInfoViewModel(private val entryId: String) : BaseViewModel<Entry>() {
             else -> data.isTopTen
         }
 
-        MediaUserInfo(isNoted, isFinished, data.isCanceled, isTopTen)
+        MediaUserInfo(isNoted, isFinished, data.isCanceled, isTopTen, false)
     }
 
     private enum class UserInfoUpdateType {

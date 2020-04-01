@@ -59,6 +59,7 @@ import me.proxer.app.util.extension.toEpisodeAppString
 import me.proxer.app.util.extension.unsafeLazy
 import me.proxer.library.enums.Category
 import me.proxer.library.util.ProxerUrls
+import me.proxer.library.util.ProxerUrls.hasProxerStreamFileHost
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
@@ -89,7 +90,7 @@ class StreamActivity : BaseActivity() {
     private val isProxerStream: Boolean
         get() = intent.dataString
             ?.let { Utils.parseAndFixUrl(it) }
-            ?.let { ProxerUrls.hasProxerStreamFileHost(it) }
+            ?.let { it.hasProxerStreamFileHost }
             ?: false
 
     private val adTag: Uri?
