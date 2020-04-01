@@ -291,7 +291,9 @@ object ErrorUtils : KoinComponent {
         }
 
         fun toClickListener(activity: BaseActivity) = when (buttonAction) {
-            CAPTCHA -> View.OnClickListener { activity.showPage(ProxerUrls.captchaWeb(Device.MOBILE)) }
+            CAPTCHA -> View.OnClickListener {
+                activity.showPage(ProxerUrls.captchaWeb(Utils.getIpAddress(), Device.MOBILE))
+            }
             LOGIN -> View.OnClickListener { LoginDialog.show(activity) }
             AGE_CONFIRMATION -> View.OnClickListener { AgeConfirmationDialog.show(activity) }
             OPEN_LINK -> data[LINK_DATA_KEY].let { link ->
@@ -304,7 +306,10 @@ object ErrorUtils : KoinComponent {
         }
 
         fun toIntent() = when (buttonAction) {
-            CAPTCHA -> Intent(Intent.ACTION_VIEW, ProxerUrls.captchaWeb(Device.MOBILE).androidUri())
+            CAPTCHA -> Intent(
+                Intent.ACTION_VIEW,
+                ProxerUrls.captchaWeb(Utils.getIpAddress(), Device.MOBILE).androidUri()
+            )
             else -> null
         }
 

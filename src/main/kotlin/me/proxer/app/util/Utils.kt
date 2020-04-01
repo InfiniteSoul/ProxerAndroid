@@ -16,6 +16,7 @@ import me.proxer.library.ProxerException.ErrorType
 import okhttp3.HttpUrl
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.net.NetworkInterface
 
 /**
  * @author Ruben Gees
@@ -62,6 +63,18 @@ object Utils {
         packageManager.getApplicationInfo(packageName, 0).enabled
     } catch (error: PackageManager.NameNotFoundException) {
         false
+    }
+
+    fun getIpAddress(): String? = try {
+        NetworkInterface.getNetworkInterfaces().asSequence()
+            .flatMap { it.inetAddresses.asSequence() }
+            .filterNot { it.isLoopbackAddress || it.isLinkLocalAddress }
+            .map { it.hostAddress }
+            .firstOrNull()
+    } catch (error: Throwable) {
+        Timber.e("Error trying to get ip address", error)
+
+        null
     }
 
     fun getNativeAppPackage(context: Context, url: HttpUrl): Set<String> {
