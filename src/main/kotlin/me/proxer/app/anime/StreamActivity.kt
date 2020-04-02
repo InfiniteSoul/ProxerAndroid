@@ -13,11 +13,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LOW_PROFILE
 import android.view.View.SYSTEM_UI_FLAG_VISIBLE
+import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 import android.view.WindowManager
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
@@ -58,7 +58,6 @@ import me.proxer.app.util.extension.newTask
 import me.proxer.app.util.extension.toEpisodeAppString
 import me.proxer.app.util.extension.unsafeLazy
 import me.proxer.library.enums.Category
-import me.proxer.library.util.ProxerUrls
 import me.proxer.library.util.ProxerUrls.hasProxerStreamFileHost
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -89,8 +88,7 @@ class StreamActivity : BaseActivity() {
 
     private val isProxerStream: Boolean
         get() = intent.dataString
-            ?.let { Utils.parseAndFixUrl(it) }
-            ?.let { it.hasProxerStreamFileHost }
+                ?.let { Utils.parseAndFixUrl(it) }?.hasProxerStreamFileHost
             ?: false
 
     private val adTag: Uri?
