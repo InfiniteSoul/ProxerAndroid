@@ -1,0 +1,51 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Check Gradle wrapper
+              uses: gradle/wrapper-validation-action@v1.0.2
+
+            - name: Set up JDK 11
+              uses: actions/setup-java@v1.3.0
+              with:
+                  java-version: 11
+
+            - name: Set up Gradle Cache
+              uses: actions/cache@v1.1.2
+              with:
+                  path: ~/.gradle/caches
+                  key: ${{ runner.OS }}-gradle-${{ hashFiles('**/versions.gradle') }}
+                  restore-keys: |
+                      ${{ runner.OS }}-gradle-${{ hashFiles('**/versions.gradle') }}
+                      ${{ runner.OS }}-gradle-
+            - name: Install secrets
+              run: .github/workflows/create-secrets.sh
+              env:
+                  KEYSTORE: ${{ secrets.KEYSTORE }}
+                  SECRETS: ${{ secrets.SECRETS }}
+
+            - id: build
+              name: Build with Gradle
+              run: ./gradlew ktlintCheck detekt build bundle
+
+            - name: Store reports
+              uses: actions/upload-artifact@v1.0.0
+              if: always()
+              with:
+                  name: Reports
+                  path: build/reports
+
+            - name: Store outputs
+              uses: actions/upload-artifact@v1.0.0
+              if: always()
+              with:
+                  name: Outputs
+                  path: build/outputs
