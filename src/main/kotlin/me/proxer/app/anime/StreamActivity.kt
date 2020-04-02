@@ -1,5 +1,6 @@
 package me.proxer.app.anime
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -152,17 +153,7 @@ class StreamActivity : BaseActivity() {
 
         fullscreen.clicks()
             .autoDisposable(this.scope())
-            .subscribe {
-                if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-
-                    fullscreen.setImageDrawable(generateControllerIcon(CommunityMaterial.Icon.cmd_fullscreen))
-                } else {
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-
-                    fullscreen.setImageDrawable(generateControllerIcon(CommunityMaterial.Icon.cmd_fullscreen_exit))
-                }
-            }
+            .subscribe { toggleOrientation() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -290,6 +281,19 @@ class StreamActivity : BaseActivity() {
                     }
                 }
             else -> SYSTEM_UI_FLAG_VISIBLE
+        }
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    private fun toggleOrientation() {
+        if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
+            fullscreen.setImageDrawable(generateControllerIcon(CommunityMaterial.Icon.cmd_fullscreen))
+        } else {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+
+            fullscreen.setImageDrawable(generateControllerIcon(CommunityMaterial.Icon.cmd_fullscreen_exit))
         }
     }
 

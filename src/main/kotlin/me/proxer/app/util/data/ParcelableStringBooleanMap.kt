@@ -19,7 +19,7 @@ class ParcelableStringBooleanMap : Parcelable {
     }
 
     val size get() = internalMap.size
-    val entries get() = internalMap.entries
+    val entries: MutableSet<MutableMap.MutableEntry<String, Boolean>> get() = internalMap.entries
 
     private val internalMap = LinkedHashMap<String, Boolean>()
 
